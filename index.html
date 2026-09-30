@@ -33,13 +33,53 @@ hr { border: none; border-top: 1px solid var(--border); }
 .eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; display: block; }
 h1 { font-size: clamp(4rem, 11vw, 8rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; color: #0D0D0D; }
 h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: #0D0D0D; margin-bottom: 1.25rem; }
-h3 { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 1.25rem; }
+.kicker { line-height: 1.5; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 1.25rem; }
 p { color: var(--ink-soft); font-size: 18px; line-height: 1.85; }
 p + p { margin-top: 0.875rem; }
 strong { color: var(--ink); font-weight: 500; }
 
 
-/* COVER IMAGE */
+/* ANIMATED COVER */
+.cover { margin-top: 3rem; background: #347F8A; border-radius: 16px; overflow: hidden; text-align: center; padding: clamp(2.5rem, 5vw, 4rem) 1rem 0; }
+.cover-title { font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+.cover-sub { font-size: clamp(14px, 1.4vw, 18px); color: #fff; margin-top: 0.5rem; }
+.cover-chips { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem; padding: 0 1rem; }
+.chip { font-size: 12px; font-weight: 500; line-height: 1; padding: 8px 14px; border-radius: 999px; background: #fff; color: #374151; }
+.chip-teal { color: #00766C; background: #E6FAF7; }
+.chip-orange { color: #C24E00; box-shadow: inset 0 0 0 1.5px #FF6A00; }
+/* phones sit in a gentle arc and are cropped by the bottom edge */
+/* --pw = phone width; a phone is 2.113 × as tall as wide. By default the bottom ~20% (nav bar) is cropped;
+   hovering lifts that phone so its whole screen shows. The gap under the chips is reserved for that lift. */
+.cover { --pw: clamp(110px, 16vw, 240px); --lift: calc(var(--pw) * 0.4226 + 20px); }
+.cover-phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(0.75rem, 2vw, 2rem); margin-top: calc(var(--lift) + 0.5rem); padding: 0 clamp(1rem, 3vw, 3rem); height: calc(var(--pw) * 1.69 + 2.5vw); }
+.cover-phone { flex: 0 0 auto; width: var(--pw); margin-top: var(--arc); filter: drop-shadow(0 24px 30px rgba(8, 40, 46, 0.28)); }
+.cover-phone:nth-child(1), .cover-phone:nth-child(5) { --arc: 2.5vw; }
+.cover-phone:nth-child(2), .cover-phone:nth-child(4) { --arc: 0.9vw; }
+.cover-phone:nth-child(3) { --arc: 0px; }
+.cover-lift { transition: transform 0.55s cubic-bezier(.2,.8,.2,1); }
+.cover-lift img { width: 100%; height: auto; display: block; }
+.cover-phone:hover .cover-lift, .cover-phone:focus-within .cover-lift { transform: translateY(calc(-1 * var(--lift) - var(--arc))); }
+/* intro plays once when the cover scrolls into view, then each phone floats on its own phase */
+.cover .cover-head > *, .cover .cover-phone { opacity: 0; transform: translateY(40px); }
+.cover.visible .cover-head > * { animation: cover-rise 0.9s cubic-bezier(.2,.8,.2,1) forwards; }
+.cover.visible .cover-head > :nth-child(2) { animation-delay: 0.08s; }
+.cover.visible .cover-head > :nth-child(3) { animation-delay: 0.16s; }
+.cover.visible .cover-phone {
+  animation: cover-rise 1.1s cubic-bezier(.2,.8,.2,1) forwards, cover-float 5.5s ease-in-out infinite alternate;
+  animation-delay: calc(0.25s + var(--i) * 0.1s), calc(1.4s + var(--i) * -1.1s);
+}
+@keyframes cover-rise { to { opacity: 1; transform: translateY(0); } }
+@keyframes cover-float { from { translate: 0 0; } to { translate: 0 -12px; } }
+@media (max-width: 700px) {
+  /* no hover on touch: show whole phones in a swipeable row */
+  .cover { --pw: 46vw; }
+  .cover-phones { justify-content: flex-start; overflow-x: auto; scroll-snap-type: x mandatory; height: auto; margin-top: 2rem; padding-bottom: 1.5rem; }
+  .cover-phone { scroll-snap-align: center; margin-top: 0; }
+  .cover-phone:hover .cover-lift { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover .cover-head > *, .cover .cover-phone { opacity: 1; transform: none; animation: none !important; }
+}
 .cover-wrap {
   width: 100%;
   margin-top: 3rem;
@@ -59,10 +99,10 @@ strong { color: var(--ink); font-weight: 500; }
 .hero-actions { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
 
 .meta-grid { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 1.5rem; border-top: 1px solid var(--border-mid); border-bottom: 1px solid var(--border-mid); }
-.meta-item { padding: 1.5rem 1.5rem 1.5rem 0; border-right: 1px solid var(--border); }
-.meta-item:last-child { border-right: none; padding-right: 0; }
-@media (max-width: 640px) { .meta-grid { grid-template-columns: 1fr 1fr; } .meta-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem 0; } }
-.meta-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.4rem; }
+.meta-item { padding: 1.5rem 1rem; border-right: 1px solid var(--border); }
+.meta-item:last-child { border-right: none; }
+@media (max-width: 640px) { .meta-grid { grid-template-columns: 1fr 1fr; } .meta-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem 0.75rem; } }
+.meta-label { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.4rem; }
 .meta-value { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; }
 
 /* TWO COL */
@@ -82,7 +122,7 @@ strong { color: var(--ink); font-weight: 500; }
 .insight-row { display: grid; grid-template-columns: 32px 1fr; gap: 1.25rem; align-items: start; padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
 .insight-row:first-child { border-top: 1px solid var(--border); }
 .insight-index { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.06em; padding-top: 2px; }
-.insight-body h4 { font-size: 18px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.3rem; }
+.insight-body h3 { font-size: 18px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.3rem; }
 .insight-body p { font-size: 17px; color: var(--ink-muted); line-height: 1.65; }
 
 /* PERSONA */
@@ -96,7 +136,7 @@ strong { color: var(--ink); font-weight: 500; }
 @media (max-width: 640px) { .persona-bottom { grid-template-columns: 1fr; } }
 .persona-col { padding: 1.75rem 2rem; border-right: 1px solid var(--border); }
 .persona-col:last-child { border-right: none; }
-.persona-col h4 { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem; }
+.persona-col h3 { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem; }
 .persona-col ul { list-style: none; }
 .persona-col ul li { font-size: 15px; color: var(--ink-soft); padding: 5px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
 .persona-col ul li:last-child { border-bottom: none; }
@@ -105,7 +145,7 @@ strong { color: var(--ink); font-weight: 500; }
 .hmw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-top: 2.5rem; }
 @media (max-width: 640px) { .hmw-grid { grid-template-columns: 1fr; } }
 .hmw-cell { background: var(--bg); padding: 2rem; }
-.hmw-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; display: block; }
+.hmw-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; display: block; }
 .hmw-text { font-size: 18px; color: var(--ink-soft); line-height: 1.7; }
 
 /* PRINCIPLES */
@@ -113,35 +153,14 @@ strong { color: var(--ink); font-weight: 500; }
 .principle-row { display: grid; grid-template-columns: 44px 1fr; gap: 1.5rem; padding: 2rem 0; border-bottom: 1px solid var(--border); align-items: start; }
 .principle-row:first-child { border-top: 1px solid var(--border); }
 .principle-num { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.06em; padding-top: 3px; }
-.principle-content h4 { font-size: 19px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.4rem; }
+.principle-content h3 { font-size: 19px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.4rem; }
 .principle-content p { font-size: 17px; color: var(--ink-muted); line-height: 1.65; }
 
-/* =====================
-   CAROUSEL — Matt Fredette style
-   ===================== */
+/* SOLUTION (interactive prototype mounts here; see prototype.js) */
 .carousel-section { padding: 3rem 0; }
-.carousel-header { margin-bottom: 3rem; }
-.carousel-wrap { position: relative; background: var(--bg-2); border-radius: 16px; overflow: hidden; padding: 3rem; }
-.carousel-slide.active .carousel-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; min-height: 520px; }
-@media (max-width: 680px) { .carousel-inner { grid-template-columns: 1fr; min-height: auto; } }
-.carousel-slide { display: none; width: 100%; }
-.carousel-slide.active { display: block; }
-
 .slide-label { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; display: block; }
 .slide-title { font-size: 2rem; font-weight: 700; color: #0D0D0D; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1rem; }
 .slide-desc { font-size: 18px; color: var(--ink-soft); line-height: 1.75; }
-
-.slide-img-wrap { display: flex; align-items: center; justify-content: center; height: 460px; }
-.slide-img-wrap img { height: 100%; width: auto; object-fit: contain; }
-
-.carousel-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 2rem; }
-.carousel-dots { display: flex; gap: 8px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-mid); cursor: pointer; transition: background 0.2s; border: none; padding: 0; }
-.dot.active { background: var(--green); }
-.carousel-arrows { display: flex; gap: 0.75rem; }
-.arrow-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-mid); background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--ink-soft); transition: all 0.15s; }
-.arrow-btn:hover { background: var(--green); color: #fff; border-color: var(--green); }
-.slide-counter { font-size: 13px; color: var(--ink-muted); }
 
 /* CUBE SECTION */
 .cube-section { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 4rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 3rem; }
@@ -152,7 +171,7 @@ strong { color: var(--ink); font-weight: 500; }
 .process-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-top: 2.5rem; }
 @media (max-width: 640px) { .process-grid { grid-template-columns: 1fr 1fr; } }
 .process-cell { background: var(--bg); padding: 1.5rem 1.25rem; }
-.process-num { font-size: 10px; font-weight: 500; color: var(--green); letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+.process-num { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.08em; margin-bottom: 0.6rem; }
 .process-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem; }
 .process-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
 
@@ -161,16 +180,16 @@ strong { color: var(--ink); font-weight: 500; }
 .decision-row { display: grid; grid-template-columns: 44px 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
 .decision-row:first-child { border-top: 1px solid var(--border); }
 .decision-num { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.06em; padding-top: 3px; }
-.decision-content h4 { font-size: 20px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+.decision-content h3 { font-size: 20px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
 .decision-content p { font-size: 18px; color: var(--ink-soft); line-height: 1.75; }
 
 /* REFLECTION */
 .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-top: 2.5rem; }
 @media (max-width: 640px) { .reflection-grid { grid-template-columns: 1fr; } }
 .reflection-cell { background: var(--bg); padding: 2.5rem; }
-.reflection-cell.dark { background: #4FA4B1; }
-.reflection-cell.dark h3 { color: rgba(255,255,255,0.45); }
-.reflection-cell.dark p { color: rgba(255,255,255,0.72); }
+.reflection-cell.dark { background: #347F8A; }
+.reflection-cell.dark .kicker { color: #fff; }
+.reflection-cell.dark p { color: #fff; }
 .reflection-cell.dark p + p { margin-top: 0.875rem; }
 
 /* BUTTONS */
@@ -216,10 +235,10 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
     </div>
     <div class="meta-grid reveal">
       <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">UX Design & Research</div></div>
-      <div class="meta-item" style="padding-left:1.5rem;"><div class="meta-label">Team</div><div class="meta-value">Andrew, Jomarly, Thomas</div></div>
-      <div class="meta-item" style="padding-left:1.5rem;"><div class="meta-label">Type</div><div class="meta-value">Physical + Digital</div></div>
-      <div class="meta-item" style="padding-left:1.5rem;"><div class="meta-label">Tools</div><div class="meta-value">Figma · Framer</div></div>
-      <div class="meta-item" style="padding-left:1.5rem;"><div class="meta-label">Course</div><div class="meta-value">DIS 3, RPI</div></div>
+      <div class="meta-item"><div class="meta-label">Team</div><div class="meta-value">Andrew, Jomarly, Thomas</div></div>
+      <div class="meta-item"><div class="meta-label">Type</div><div class="meta-value">Physical + Digital</div></div>
+      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma · Framer</div></div>
+      <div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">DIS 3, RPI</div></div>
     </div>
   </div>
 </div>
@@ -228,23 +247,39 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 
 
 
-<!-- COVER IMAGE -->
-<div style="width:100%; background:none; margin-top:3rem; padding: 0;">
-  <img src="casestudy.png" alt="MotiTrack App Overview" style="width:100%; height:auto; display:block; border-radius:12px;" />
-</div>
+<!-- COVER (animated: phones rise in, then float) -->
+<section class="cover" aria-label="Moti-Track app overview">
+  <div class="cover-head">
+    <div class="cover-title">MotiTrack</div>
+    <div class="cover-sub">Habit Tracking App · Mobile Prototype</div>
+    <div class="cover-chips">
+      <span class="chip chip-teal">Daily Streaks</span>
+      <span class="chip chip-orange">Motivational Quotes</span>
+      <span class="chip">Reflection Prompts</span>
+    </div>
+  </div>
+  <div class="cover-phones">
+    <!-- each phone is replaced by a live, autoplaying one by prototype.js; the PNG is the no-JS fallback -->
+    <div class="cover-phone" style="--i:0"><div class="cover-lift" data-moti-demo="Home"><img src="dashboard.png" alt="Dashboard screen" /></div></div>
+    <div class="cover-phone" style="--i:1"><div class="cover-lift" data-moti-demo="Habits"><img src="habit%20tracker.png" alt="Habit Tracker screen" /></div></div>
+    <div class="cover-phone" style="--i:2"><div class="cover-lift" data-moti-demo="Stats"><img src="stats.png" alt="Stats Overview screen" /></div></div>
+    <div class="cover-phone" style="--i:3"><div class="cover-lift" data-moti-demo="Quote"><img src="quotes.png" alt="Morning quote screen" /></div></div>
+    <div class="cover-phone" style="--i:4"><div class="cover-lift" data-moti-demo="Reflect"><img src="daily%20reflection.png" alt="Daily Reflection screen" /></div></div>
+  </div>
+</section>
 
 <!-- OVERVIEW -->
 <div class="section">
   <div class="container">
     <div class="two-col reveal">
       <div>
-        <h3>The Problem</h3>
+        <p class="kicker">The Problem</p>
         <blockquote class="pull-quote">"Notifications are too easy to ignore. But something sitting on your desk — you can't ignore that."</blockquote>
         <p>That's what one RPI student told us during research, and it became the seed for everything. People aren't failing at habits because they don't care. They quit because the tools punish them for slipping, and starting over feels worse than stopping.</p>
         <p>40% of users we surveyed still rely on physical journals. That's not nostalgia. It's a signal that apps alone aren't meeting the emotional need.</p>
       </div>
       <div>
-        <h3>The Solution</h3>
+        <p class="kicker">The Solution</p>
         <p>Before landing on Moti-Track, we explored flashcards and analog note systems, all of which were too passive. The pivot came from two products: <strong>TRMNL</strong>, an e-ink desk display, and <strong>LoveBox</strong>, a connected device couples use to send messages across distance through a spinning heart.</p>
         <p>Both shared the same insight: a physical object in your space creates presence that a push notification never will. That became the <strong>Focus Block</strong>, and everything followed from there.</p>
       </div>
@@ -258,7 +293,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <div class="section">
   <div class="container">
     <div class="reveal">
-      <h3>Research</h3>
+      <p class="kicker">Research</p>
       <h2>What RPI students told us</h2>
       <p>We interviewed and surveyed students on campus who were actively trying to build habits, or who had tried and given up. No finished product to test yet, so this was about understanding the emotional landscape first.</p>
       <p>We interviewed and surveyed over 20 RPI students across two weeks. The clearest pattern: people didn't quit because they stopped caring. They quit because the moment they missed a day, the app made them feel like they'd already failed.</p>
@@ -269,10 +304,10 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
       <div class="stat-box"><div class="stat-num">25%</div><div class="stat-desc">lean on social support as their primary motivator</div></div>
     </div>
     <div class="insight-list reveal">
-      <div class="insight-row"><div class="insight-index">01</div><div class="insight-body"><h4>Punishing UX kills momentum faster than missing a day does</h4><p>Students said they stopped using an app not because they missed a habit, but because of how the app responded. A wiped streak felt like being told to start from zero.</p></div></div>
-      <div class="insight-row"><div class="insight-index">02</div><div class="insight-body"><h4>Notifications are too easy to ignore</h4><p>One student put it directly: "I just swipe them away without thinking." A physical object works differently: ambient, persistent, with no demand for your attention.</p></div></div>
-      <div class="insight-row"><div class="insight-index">03</div><div class="insight-body"><h4>People want accountability, not competition</h4><p>Knowing a friend is also working on their habits, without being ranked against them, was consistently more motivating than any streak number or reward system.</p></div></div>
-      <div class="insight-row"><div class="insight-index">04</div><div class="insight-body"><h4>The 40% journal stat isn't random</h4><p>People who stuck with journals called them "gentler" and "more personal." That word kept coming up. It wasn't about features. It was about how the tool made them feel about themselves.</p></div></div>
+      <div class="insight-row"><div class="insight-index">01</div><div class="insight-body"><h3>Punishing UX kills momentum faster than missing a day does</h3><p>Students said they stopped using an app not because they missed a habit, but because of how the app responded. A wiped streak felt like being told to start from zero.</p></div></div>
+      <div class="insight-row"><div class="insight-index">02</div><div class="insight-body"><h3>Notifications are too easy to ignore</h3><p>One student put it directly: "I just swipe them away without thinking." A physical object works differently: ambient, persistent, with no demand for your attention.</p></div></div>
+      <div class="insight-row"><div class="insight-index">03</div><div class="insight-body"><h3>People want accountability, not competition</h3><p>Knowing a friend is also working on their habits, without being ranked against them, was consistently more motivating than any streak number or reward system.</p></div></div>
+      <div class="insight-row"><div class="insight-index">04</div><div class="insight-body"><h3>The 40% journal stat isn't random</h3><p>People who stuck with journals called them "gentler" and "more personal." That word kept coming up. It wasn't about features. It was about how the tool made them feel about themselves.</p></div></div>
     </div>
   </div>
 </div>
@@ -282,7 +317,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <!-- PERSONA -->
 <div class="section">
   <div class="container">
-    <div class="reveal"><h3>Persona</h3><h2>Who we designed for</h2></div>
+    <div class="reveal"><p class="kicker">Persona</p><h2>Who we designed for</h2></div>
     <div class="persona-wrap reveal">
       <div class="persona-top">
         <img src="mia%20lin.jpg" style="width:80px;height:80px;object-fit:cover;border-radius:50%;flex-shrink:0;" />
@@ -293,9 +328,9 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
         </div>
       </div>
       <div class="persona-bottom">
-        <div class="persona-col"><h4>Goals</h4><ul><li>Stay consistent with healthy habits</li><li>Maintain emotional balance over time</li><li>Build routines that feel sustainable</li></ul></div>
-        <div class="persona-col"><h4>Obstacles</h4><ul><li>Loses drive when stressed or overwhelmed</li><li>Feels guilt or shame after slip-ups</li><li>Current apps feel too strict or impersonal</li></ul></div>
-        <div class="persona-col" style="border-right:none;"><h4>How Moti-Track Helps</h4><ul><li>Reframes relapse as reflection, not failure</li><li>Physical + digital elements stay engaging</li><li>Calming, encouraging interactions</li></ul></div>
+        <div class="persona-col"><h3>Goals</h3><ul><li>Stay consistent with healthy habits</li><li>Maintain emotional balance over time</li><li>Build routines that feel sustainable</li></ul></div>
+        <div class="persona-col"><h3>Obstacles</h3><ul><li>Loses drive when stressed or overwhelmed</li><li>Feels guilt or shame after slip-ups</li><li>Current apps feel too strict or impersonal</li></ul></div>
+        <div class="persona-col" style="border-right:none;"><h3>How Moti-Track Helps</h3><ul><li>Reframes relapse as reflection, not failure</li><li>Physical + digital elements stay engaging</li><li>Calming, encouraging interactions</li></ul></div>
       </div>
     </div>
   </div>
@@ -307,7 +342,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <div class="section">
   <div class="container">
     <div class="reveal">
-      <h3>Defining the Theme</h3>
+      <p class="kicker">Defining the Theme</p>
       <h2>Resilience as a design principle</h2>
       <p>We were asked to design around a social issue. We chose motivation loss and emotional burnout. Resilience, meaning recovering from setbacks rather than being defined by them, became the lens for every decision we made.</p>
     </div>
@@ -318,9 +353,9 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
       <div class="hmw-cell"><span class="hmw-tag">How might we</span><div class="hmw-text">Make a physical object part of the habit loop so accountability exists even when the phone is away?</div></div>
     </div>
     <div class="principles-list reveal">
-      <div class="principle-row"><div class="principle-num">01</div><div class="principle-content"><h4>Gentle over strict</h4><p>No punishing resets. Every missed day is a reflection point, not a failure state.</p></div></div>
-      <div class="principle-row"><div class="principle-num">02</div><div class="principle-content"><h4>Physical presence matters</h4><p>A device you can see creates ambient accountability that push notifications can't replicate.</p></div></div>
-      <div class="principle-row"><div class="principle-num">03</div><div class="principle-content"><h4>Community, not competition</h4><p>Shared streaks build solidarity. Others' progress should inspire, not intimidate.</p></div></div>
+      <div class="principle-row"><div class="principle-num">01</div><div class="principle-content"><h3>Gentle over strict</h3><p>No punishing resets. Every missed day is a reflection point, not a failure state.</p></div></div>
+      <div class="principle-row"><div class="principle-num">02</div><div class="principle-content"><h3>Physical presence matters</h3><p>A device you can see creates ambient accountability that push notifications can't replicate.</p></div></div>
+      <div class="principle-row"><div class="principle-num">03</div><div class="principle-content"><h3>Community, not competition</h3><p>Shared streaks build solidarity. Others' progress should inspire, not intimidate.</p></div></div>
     </div>
   </div>
 </div>
@@ -338,81 +373,9 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
       </div>
     </div>
 
-    <div class="carousel-wrap reveal">
-
-      <!-- SLIDE 1: Dashboard -->
-      <div class="carousel-slide active" data-index="0">
-        <div class="carousel-inner">
-          <div>
-            <span class="slide-label">Dashboard</span>
-            <div class="slide-title">Your day at a glance</div>
-            <p class="slide-desc">The home screen shows your day streak, today's habit completion, and weekly progress, all in one view. Two stats that matter most are front and center so users never have to go looking.</p>
-          </div>
-          <div class="slide-img-wrap">
-            <img src="dashboard.png" />
-          </div>
-        </div>
-      </div>
-
-      <!-- SLIDE 2: Habit Tracker -->
-      <div class="carousel-slide" data-index="1">
-        <div class="carousel-inner">
-          <div>
-            <span class="slide-label">Habit Tracker</span>
-            <div class="slide-title">Tracking that doesn't feel like a test you can fail</div>
-            <p class="slide-desc">Each habit is a simple check-off. Completed habits are visually struck through so progress feels satisfying. Missing a habit doesn't wipe anything. It opens a reflection prompt instead.</p>
-          </div>
-          <div class="slide-img-wrap">
-            <img src="habit%20tracker.png" />
-          </div>
-        </div>
-      </div>
-
-      <!-- SLIDE 3: Daily Reflection -->
-      <div class="carousel-slide" data-index="2">
-        <div class="carousel-inner">
-          <div>
-            <span class="slide-label">Daily Reflection</span>
-            <div class="slide-title">Reflection over reset</div>
-            <p class="slide-desc">Instead of wiping your streak when you miss a day, Moti-Track shows you your streak and prompts you to reflect. The streak persists. It just gets a note attached. This reframe was the most important design decision in the whole project.</p>
-          </div>
-          <div class="slide-img-wrap">
-            <img src="daily%20reflection.png" />
-          </div>
-        </div>
-      </div>
-
-      <!-- SLIDE 4: Quote / Morning -->
-      <div class="carousel-slide" data-index="3">
-        <div class="carousel-inner">
-          <div>
-            <span class="slide-label">Morning Quote</span>
-            <div class="slide-title">Start the day with intention</div>
-            <p class="slide-desc">Every morning, users are greeted with a motivational quote and a summary of their streak, habits completed, and weekly goal percentage. The "Start Your Day" button is the first interaction: gentle, not demanding.</p>
-          </div>
-          <div class="slide-img-wrap">
-            <img src="quotes.png" />
-          </div>
-        </div>
-      </div>
-
-      <!-- NAV -->
-      <div class="carousel-nav">
-        <div style="display:flex;align-items:center;gap:1rem;">
-          <div class="carousel-dots">
-            <button class="dot active" data-goto="0"></button>
-            <button class="dot" data-goto="1"></button>
-            <button class="dot" data-goto="2"></button>
-            <button class="dot" data-goto="3"></button>
-          </div>
-          <span class="slide-counter" id="counter">1 / 4</span>
-        </div>
-        <div class="carousel-arrows">
-          <button class="arrow-btn" id="btn-prev">←</button>
-          <button class="arrow-btn" id="btn-next">→</button>
-        </div>
-      </div>
-
+    <!-- Interactive prototype (prototype.js): five tabs in nav order, tap to explore -->
+    <div class="reveal" data-moti-proto>
+      <noscript><img src="dashboard.png" alt="Moti-Track dashboard screen" style="max-height:460px;display:block;margin:0 auto;" /></noscript>
     </div>
 
     <!-- FOCUS BLOCK -->
@@ -440,7 +403,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <div class="section">
   <div class="container">
     <div class="reveal">
-      <h3>Design Process</h3>
+      <p class="kicker">Design Process</p>
       <h2>How we got here, including the wrong turns</h2>
       <p>We didn't start with the cube. Early ideas included flashcards and analog note systems. None of them addressed the emotional problem we'd uncovered. The pivot came from two reference products: TRMNL and LoveBox. Once I saw LoveBox, a connected object tied to people you care about, something clicked about what the physical device needed to be.</p>
     </div>
@@ -463,7 +426,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <div class="section" style="padding-top:0;">
   <div class="container">
     <div class="reveal">
-      <h3>Early Sketches</h3>
+      <p class="kicker">Early Sketches</p>
       <p style="margin-bottom:2rem;">Before opening Figma, we sketched out the core screens on paper. These three concepts defined the direction: what happens when you miss a day, how the reflection model works, and what the Focus Block could be.</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
         <div>
@@ -492,12 +455,12 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <!-- DECISIONS -->
 <div class="section">
   <div class="container">
-    <div class="reveal"><h3>Key Design Decisions</h3><h2>The choices that shaped the product</h2></div>
+    <div class="reveal"><p class="kicker">Key Design Decisions</p><h2>The choices that shaped the product</h2></div>
     <div class="decision-list reveal">
-      <div class="decision-row"><div class="decision-num">01</div><div class="decision-content"><h4>Reflection over reset</h4><p>This came directly from what students told us. The moment an app wipes your streak, the math changes. Starting over feels worse than quitting. So instead of resetting, Moti-Track prompts a journal entry. The streak doesn't disappear. It just has a note attached to that day.</p></div></div>
-      <div class="decision-row"><div class="decision-num">02</div><div class="decision-content"><h4>A physical device, not just another app</h4><p>The hardest part of this project was figuring out what the cube actually was. LoveBox helped me see it: a connected physical object that shows something meaningful without requiring you to open anything. The Focus Block sits on your desk and shows your streak and your friends' streaks, always visible, never demanding.</p></div></div>
-      <div class="decision-row"><div class="decision-num">03</div><div class="decision-content"><h4>Community without competition</h4><p>We talked about leaderboards. We decided against them because the research was clear: people want to feel like others are in it with them, not like they're losing a race. Seeing a friend's 12-day streak on the cube is motivating. Being ranked 8th out of 10 is demoralizing.</p></div></div>
-      <div class="decision-row"><div class="decision-num">04</div><div class="decision-content"><h4>Designing without a working prototype</h4><p>We never built a real Focus Block. The technology and time weren't there. That constraint forced us to be precise about what the experience should feel like conceptually, and to make sure the app was strong enough to stand on its own.</p></div></div>
+      <div class="decision-row"><div class="decision-num">01</div><div class="decision-content"><h3>Reflection over reset</h3><p>This came directly from what students told us. The moment an app wipes your streak, the math changes. Starting over feels worse than quitting. So instead of resetting, Moti-Track prompts a journal entry. The streak doesn't disappear. It just has a note attached to that day.</p></div></div>
+      <div class="decision-row"><div class="decision-num">02</div><div class="decision-content"><h3>A physical device, not just another app</h3><p>The hardest part of this project was figuring out what the cube actually was. LoveBox helped me see it: a connected physical object that shows something meaningful without requiring you to open anything. The Focus Block sits on your desk and shows your streak and your friends' streaks, always visible, never demanding.</p></div></div>
+      <div class="decision-row"><div class="decision-num">03</div><div class="decision-content"><h3>Community without competition</h3><p>We talked about leaderboards. We decided against them because the research was clear: people want to feel like others are in it with them, not like they're losing a race. Seeing a friend's 12-day streak on the cube is motivating. Being ranked 8th out of 10 is demoralizing.</p></div></div>
+      <div class="decision-row"><div class="decision-num">04</div><div class="decision-content"><h3>Designing without a working prototype</h3><p>We never built a real Focus Block. The technology and time weren't there. That constraint forced us to be precise about what the experience should feel like conceptually, and to make sure the app was strong enough to stand on its own.</p></div></div>
     </div>
   </div>
 </div>
@@ -507,15 +470,15 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <!-- REFLECTION -->
 <div class="section">
   <div class="container">
-    <div class="reveal"><h3>Reflection</h3><h2>What this project taught me</h2></div>
+    <div class="reveal"><p class="kicker">Reflection</p><h2>What this project taught me</h2></div>
     <div class="reflection-grid reveal">
       <div class="reflection-cell">
-        <h3>Learnings</h3>
+        <p class="kicker">Learnings</p>
         <p style="margin-top:1rem;">The hardest part wasn't the Figma screens. It was figuring out what the cube actually should be. Once I found LoveBox and TRMNL, something clicked: the physical object needed to work like ambient presence, not an alert system. That reframe unlocked everything else.</p>
         <p>I also learned how much early feedback matters. The further into the design you get before showing it to someone, the harder it is to change direction. Next time I'd seek outside perspectives much earlier in the process, even if the work feels unfinished. Fresh eyes catch things you stop seeing when you've been staring at the same screens for weeks.</p>
       </div>
       <div class="reflection-cell dark">
-        <h3>What's Next</h3>
+        <p class="kicker">What's Next</p>
         <p style="margin-top:1rem;">A real working Focus Block is the obvious next step. The 3D model exists, now it needs actual hardware. Beyond that: testing the reflection prompt flow with real users to see if it actually reduces drop-off, and exploring how the cube syncs streaks in real time without feeling intrusive.</p>
         <p>The concept is solid. It just needs to be built.</p>
       </div>
@@ -542,41 +505,14 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
   </footer>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-(function() {
-  var current = 0;
-  var total = 4;
-
-  function goTo(n) {
-    var slides = document.querySelectorAll('.carousel-slide');
-    var dots = document.querySelectorAll('.dot');
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (n + total) % total;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
-  }
-
-  document.getElementById('btn-next').addEventListener('click', function() { goTo(current + 1); });
-  document.getElementById('btn-prev').addEventListener('click', function() { goTo(current - 1); });
-
-  document.querySelectorAll('.dot').forEach(function(dot) {
-    dot.addEventListener('click', function() { goTo(parseInt(dot.getAttribute('data-goto'))); });
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight') goTo(current + 1);
-    if (e.key === 'ArrowLeft') goTo(current - 1);
-  });
-})();
-
+<script>
 // scroll reveal
-const els = document.querySelectorAll('.reveal, .fade');
+const els = document.querySelectorAll('.reveal, .fade, .cover');
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
 }, { threshold: 0.1 });
 els.forEach(el => io.observe(el));
 </script>
+<script src="prototype.js" defer></script>
 </body>
 </html>
