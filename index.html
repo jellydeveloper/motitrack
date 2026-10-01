@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Moti-Track — Andrew Choi</title>
+<title>Moti-Track | Andrew Choi</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet" />
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -96,18 +96,14 @@ strong { color: var(--ink); font-weight: 500; }
 /* HERO */
 .hero { padding: 4rem 0 0; }
 .hero-tagline { font-size: 1.35rem; color: var(--ink-soft); max-width: 480px; margin-top: 1.25rem; line-height: 1.75; font-weight: 400; }
-.hero-actions { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
 
-.meta-grid { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 1.5rem; border-top: 1px solid var(--border-mid); border-bottom: 1px solid var(--border-mid); }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2.5rem; border-top: 1px solid var(--border-mid); border-bottom: 1px solid var(--border-mid); }
 .meta-item { padding: 1.5rem 1rem; border-right: 1px solid var(--border); }
 .meta-item:last-child { border-right: none; }
 @media (max-width: 640px) { .meta-grid { grid-template-columns: 1fr 1fr; } .meta-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem 0.75rem; } }
 .meta-label { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.4rem; }
 .meta-value { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; }
 
-/* TWO COL */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-@media (max-width: 640px) { .two-col { grid-template-columns: 1fr; gap: 2.5rem; } }
 .pull-quote { font-size: 1.45rem; font-weight: 400; line-height: 1.55; color: var(--ink); border-left: 2px solid var(--green); padding-left: 1.25rem; margin: 1.5rem 0; }
 
 /* STATS */
@@ -148,13 +144,22 @@ strong { color: var(--ink); font-weight: 500; }
 .hmw-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; display: block; }
 .hmw-text { font-size: 18px; color: var(--ink-soft); line-height: 1.7; }
 
-/* PRINCIPLES */
-.principles-list { margin-top: 2.5rem; }
-.principle-row { display: grid; grid-template-columns: 44px 1fr; gap: 1.5rem; padding: 2rem 0; border-bottom: 1px solid var(--border); align-items: start; }
-.principle-row:first-child { border-top: 1px solid var(--border); }
-.principle-num { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.06em; padding-top: 3px; }
-.principle-content h3 { font-size: 19px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.4rem; }
-.principle-content p { font-size: 17px; color: var(--ink-muted); line-height: 1.65; }
+/* OVERVIEW PILLARS (reuse .hmw-cell) */
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-top: 2.5rem; }
+@media (max-width: 640px) { .pillars { grid-template-columns: 1fr; } }
+.spec-list { list-style: none; margin-top: 1rem; }
+.spec-list li { font-size: 13px; color: var(--ink-muted); padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.spec-list li:last-child { border-bottom: none; }
+.spec-list li::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.credit { font-size: 12px; color: var(--ink-muted); margin-top: 0.5rem; text-align: center; }
+.sketch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+@media (max-width: 640px) { .sketch-grid { grid-template-columns: 1fr; } }
+.sketch-grid figure { margin: 0; }
+.sketch { height: 420px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: #f8f8f6; }
+.sketch img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.sketch-grid figcaption { font-size: 13px; color: var(--ink-muted); margin-top: 0.75rem; text-align: center; }
+
+.source-note { font-size: 14px; color: var(--ink-muted); margin: -0.5rem 0 1.5rem; }
 
 /* SOLUTION (interactive prototype mounts here; see prototype.js) */
 .carousel-section { padding: 3rem 0; }
@@ -167,14 +172,6 @@ strong { color: var(--ink); font-weight: 500; }
 @media (max-width: 640px) { .cube-section { grid-template-columns: 1fr; } }
 .cube-img { width: 100%; height: 360px; object-fit: contain; border-radius: 12px; }
 
-/* PROCESS */
-.process-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-top: 2.5rem; }
-@media (max-width: 640px) { .process-grid { grid-template-columns: 1fr 1fr; } }
-.process-cell { background: var(--bg); padding: 1.5rem 1.25rem; }
-.process-num { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.08em; margin-bottom: 0.6rem; }
-.process-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem; }
-.process-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
-
 /* DECISIONS */
 .decision-list { margin-top: 2.5rem; }
 .decision-row { display: grid; grid-template-columns: 44px 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
@@ -182,15 +179,6 @@ strong { color: var(--ink); font-weight: 500; }
 .decision-num { font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.06em; padding-top: 3px; }
 .decision-content h3 { font-size: 20px; font-weight: 700; color: #0D0D0D; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
 .decision-content p { font-size: 18px; color: var(--ink-soft); line-height: 1.75; }
-
-/* REFLECTION */
-.reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-top: 2.5rem; }
-@media (max-width: 640px) { .reflection-grid { grid-template-columns: 1fr; } }
-.reflection-cell { background: var(--bg); padding: 2.5rem; }
-.reflection-cell.dark { background: #347F8A; }
-.reflection-cell.dark .kicker { color: #fff; }
-.reflection-cell.dark p { color: #fff; }
-.reflection-cell.dark p + p { margin-top: 0.875rem; }
 
 /* BUTTONS */
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 3px; font-size: 13px; font-weight: 500; text-decoration: none; font-family: 'Inter', sans-serif; transition: opacity 0.15s, transform 0.15s; cursor: pointer; border: none; }
@@ -226,31 +214,22 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <!-- HERO -->
 <div class="hero">
   <div class="container">
-    <span class="eyebrow fade">Case Study — DIS 3, RPI</span>
+    <span class="eyebrow fade">DIS 3, RPI • Concept 2026</span>
     <h1 class="fade">Moti-Track</h1>
     <p class="hero-tagline fade">A resilience-centered habit tracker that combines a physical desk device with a mobile app to help users stay consistent through community and presence, not punishment.</p>
-    <div class="hero-actions fade">
-      
-      
-    </div>
     <div class="meta-grid reveal">
-      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">UX Design & Research</div></div>
+      <div class="meta-item"><div class="meta-label">My Role</div><div class="meta-value">Research, app design, Focus Block concept</div></div>
+      <div class="meta-item"><div class="meta-label">Timeline</div><div class="meta-value">Jan–Apr 2026</div></div>
       <div class="meta-item"><div class="meta-label">Team</div><div class="meta-value">Andrew, Jomarly, Thomas</div></div>
-      <div class="meta-item"><div class="meta-label">Type</div><div class="meta-value">Physical + Digital</div></div>
-      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma · Framer</div></div>
-      <div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">DIS 3, RPI</div></div>
+      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma, Framer, coded prototype</div></div>
     </div>
   </div>
 </div>
 
-
-
-
-
 <!-- COVER (animated: phones rise in, then float) -->
 <section class="cover" aria-label="Moti-Track app overview">
   <div class="cover-head">
-    <div class="cover-title">MotiTrack</div>
+    <div class="cover-title">Moti-Track</div>
     <div class="cover-sub">Habit Tracking App · Mobile Prototype</div>
     <div class="cover-chips">
       <span class="chip chip-teal">Daily Streaks</span>
@@ -271,105 +250,56 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <!-- OVERVIEW -->
 <div class="section">
   <div class="container">
-    <div class="two-col reveal">
-      <div>
-        <p class="kicker">The Problem</p>
-        <blockquote class="pull-quote">"Notifications are too easy to ignore. But something sitting on your desk — you can't ignore that."</blockquote>
-        <p>That's what one RPI student told us during research, and it became the seed for everything. People aren't failing at habits because they don't care. They quit because the tools punish them for slipping, and starting over feels worse than stopping.</p>
-        <p>40% of users we surveyed still rely on physical journals. That's not nostalgia. It's a signal that apps alone aren't meeting the emotional need.</p>
-      </div>
-      <div>
-        <p class="kicker">The Solution</p>
-        <p>Before landing on Moti-Track, we explored flashcards and analog note systems, all of which were too passive. The pivot came from two products: <strong>TRMNL</strong>, an e-ink desk display, and <strong>LoveBox</strong>, a connected device couples use to send messages across distance through a spinning heart.</p>
-        <p>Both shared the same insight: a physical object in your space creates presence that a push notification never will. That became the <strong>Focus Block</strong>, and everything followed from there.</p>
-      </div>
+    <div class="reveal">
+      <p class="kicker">Overview</p>
+      <h2>How might we help students keep their habits without punishing them for slipping?</h2>
+      <p>For RPI's DIS 3 course, our team of three had four months to design around a social issue. We chose motivation loss and burnout. I led the research, designed the app, and shaped the concept for a physical companion device.</p>
+    </div>
+    <div class="pillars reveal">
+      <div class="hmw-cell"><span class="hmw-tag">Research</span><div class="hmw-text">Talked with 20+ RPI students about why their habits break.</div></div>
+      <div class="hmw-cell"><span class="hmw-tag">Reframe</span><div class="hmw-text">Turned the moment people quit, a missed day, into a moment to reflect.</div></div>
+      <div class="hmw-cell"><span class="hmw-tag">Design</span><div class="hmw-text">A mobile app plus the Focus Block, a desk device for quiet accountability.</div></div>
     </div>
   </div>
 </div>
 
-
-
-<!-- RESEARCH -->
+<!-- PROBLEM -->
 <div class="section">
   <div class="container">
     <div class="reveal">
-      <p class="kicker">Research</p>
-      <h2>What RPI students told us</h2>
-      <p>We interviewed and surveyed students on campus who were actively trying to build habits, or who had tried and given up. No finished product to test yet, so this was about understanding the emotional landscape first.</p>
-      <p>We interviewed and surveyed over 20 RPI students across two weeks. The clearest pattern: people didn't quit because they stopped caring. They quit because the moment they missed a day, the app made them feel like they'd already failed.</p>
-    </div>
-    <div class="stats-row reveal">
-      <div class="stat-box"><div class="stat-num">40%</div><div class="stat-desc">still use physical journals as their primary habit tool</div></div>
-      <div class="stat-box" style="border-left:1px solid var(--border);border-right:1px solid var(--border);"><div class="stat-num">35%</div><div class="stat-desc">rely on digital apps like Notion or Streaks</div></div>
-      <div class="stat-box"><div class="stat-num">25%</div><div class="stat-desc">lean on social support as their primary motivator</div></div>
-    </div>
-    <div class="insight-list reveal">
-      <div class="insight-row"><div class="insight-index">01</div><div class="insight-body"><h3>Punishing UX kills momentum faster than missing a day does</h3><p>Students said they stopped using an app not because they missed a habit, but because of how the app responded. A wiped streak felt like being told to start from zero.</p></div></div>
-      <div class="insight-row"><div class="insight-index">02</div><div class="insight-body"><h3>Notifications are too easy to ignore</h3><p>One student put it directly: "I just swipe them away without thinking." A physical object works differently: ambient, persistent, with no demand for your attention.</p></div></div>
-      <div class="insight-row"><div class="insight-index">03</div><div class="insight-body"><h3>People want accountability, not competition</h3><p>Knowing a friend is also working on their habits, without being ranked against them, was consistently more motivating than any streak number or reward system.</p></div></div>
-      <div class="insight-row"><div class="insight-index">04</div><div class="insight-body"><h3>The 40% journal stat isn't random</h3><p>People who stuck with journals called them "gentler" and "more personal." That word kept coming up. It wasn't about features. It was about how the tool made them feel about themselves.</p></div></div>
+      <p class="kicker">Problem</p>
+      <h2>Habit apps punish you for slipping, so people quit.</h2>
+      <p class="source-note">Based on interviews and surveys with 20+ RPI students.</p>
+      <blockquote class="pull-quote">"Notifications are too easy to ignore. But something sitting on your desk, you can't ignore that."</blockquote>
+      <p>That's what one RPI student told us, and it became the seed for everything. People aren't failing at habits because they don't care. They quit because the tools punish them for slipping, and starting over feels worse than stopping.</p>
+      <p>40% of the students we surveyed still rely on physical journals. That's not nostalgia. It's a signal that apps alone aren't meeting the emotional need.</p>
     </div>
   </div>
 </div>
 
-
-
-<!-- PERSONA -->
-<div class="section">
-  <div class="container">
-    <div class="reveal"><p class="kicker">Persona</p><h2>Who we designed for</h2></div>
-    <div class="persona-wrap reveal">
-      <div class="persona-top">
-        <img src="mia%20lin.jpg" style="width:80px;height:80px;object-fit:cover;border-radius:50%;flex-shrink:0;" />
-        <div>
-          <div class="persona-name">Mia Lin</div>
-          <div class="persona-meta">24 · Graduate Student · Bronx, NY</div>
-          <blockquote class="persona-quote">"I want to stay motivated without feeling judged. I do better when progress feels gentle and personal, not like I'm being punished for slipping up."</blockquote>
-        </div>
-      </div>
-      <div class="persona-bottom">
-        <div class="persona-col"><h3>Goals</h3><ul><li>Stay consistent with healthy habits</li><li>Maintain emotional balance over time</li><li>Build routines that feel sustainable</li></ul></div>
-        <div class="persona-col"><h3>Obstacles</h3><ul><li>Loses drive when stressed or overwhelmed</li><li>Feels guilt or shame after slip-ups</li><li>Current apps feel too strict or impersonal</li></ul></div>
-        <div class="persona-col" style="border-right:none;"><h3>How Moti-Track Helps</h3><ul><li>Reframes relapse as reflection, not failure</li><li>Physical + digital elements stay engaging</li><li>Calming, encouraging interactions</li></ul></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<!-- DEFINE -->
+<!-- OPPORTUNITY -->
 <div class="section">
   <div class="container">
     <div class="reveal">
-      <p class="kicker">Defining the Theme</p>
-      <h2>Resilience as a design principle</h2>
-      <p>We were asked to design around a social issue. We chose motivation loss and emotional burnout. Resilience, meaning recovering from setbacks rather than being defined by them, became the lens for every decision we made.</p>
+      <p class="kicker">Opportunity</p>
+      <h2>Reflection over reset. Presence over notifications.</h2>
+      <p>Two products changed how we saw the problem: <strong>TRMNL</strong>, an e-ink desk display, and <strong>LoveBox</strong>, a connected device couples use to send messages through a spinning heart. Both create a presence in your space that a push notification never will.</p>
     </div>
     <div class="hmw-grid reveal">
-      <div class="hmw-cell"><span class="hmw-tag">How might we</span><div class="hmw-text">Automate enough of the habit loop so users don't carry the mental load of tracking manually?</div></div>
-      <div class="hmw-cell"><span class="hmw-tag">How might we</span><div class="hmw-text">Show progress in a way that feels honest and encouraging, not strict or shameful?</div></div>
-      <div class="hmw-cell"><span class="hmw-tag">How might we</span><div class="hmw-text">Use community as solidarity, not comparison, so users feel supported rather than judged?</div></div>
-      <div class="hmw-cell"><span class="hmw-tag">How might we</span><div class="hmw-text">Make a physical object part of the habit loop so accountability exists even when the phone is away?</div></div>
-    </div>
-    <div class="principles-list reveal">
-      <div class="principle-row"><div class="principle-num">01</div><div class="principle-content"><h3>Gentle over strict</h3><p>No punishing resets. Every missed day is a reflection point, not a failure state.</p></div></div>
-      <div class="principle-row"><div class="principle-num">02</div><div class="principle-content"><h3>Physical presence matters</h3><p>A device you can see creates ambient accountability that push notifications can't replicate.</p></div></div>
-      <div class="principle-row"><div class="principle-num">03</div><div class="principle-content"><h3>Community, not competition</h3><p>Shared streaks build solidarity. Others' progress should inspire, not intimidate.</p></div></div>
+      <div class="hmw-cell"><span class="hmw-tag">Reflection over reset</span><div class="hmw-text">A missed day shouldn't erase your progress. It should become a note in your streak, not the end of it.</div></div>
+      <div class="hmw-cell"><span class="hmw-tag">Presence over notifications</span><div class="hmw-text">A notification is easy to swipe away. An object on your desk quietly stays in view.</div></div>
     </div>
   </div>
 </div>
 
-
-
-<!-- SOLUTION CAROUSEL -->
+<!-- SOLUTION -->
 <div class="carousel-section">
   <div class="container-wide">
     <div class="container" style="padding:0 clamp(1.5rem,6vw,3rem);margin-bottom:2.5rem;">
       <div class="reveal">
-        <span class="eyebrow">The Solution</span>
-        <h2>Moti-Track: two systems, one goal</h2>
-        <p>A mobile app for interactive tracking and reflection, and a physical Focus Block for ambient, always-on accountability.</p>
+        <p class="kicker">Solution</p>
+        <h2>Moti-Track: habits that survive a bad day.</h2>
+        <p>A mobile app for tracking and reflection, plus the Focus Block, a desk companion that keeps your streak and your friends' streaks in view.</p>
       </div>
     </div>
 
@@ -383,70 +313,88 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
       <div>
         <span class="slide-label">Physical Device</span>
         <div class="slide-title" style="font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:-0.02em;margin-bottom:1rem;">The Focus Block: always-on accountability</div>
-        <p class="slide-desc" style="font-size:15px;color:var(--ink-soft);line-height:1.75;margin-bottom:1.25rem;">Inspired by LoveBox, a connected object tied to people you care about, the Focus Block sits on your desk and shows your streak alongside your community's. No notifications. No demands. Just presence.</p>
-        <ul style="list-style:none;margin-top:1rem;">
-          <li style="font-size:13px;color:var(--ink-muted);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span style="width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;display:inline-block;"></span>5 screens: 4 sides and 1 top for settings</li>
-          <li style="font-size:13px;color:var(--ink-muted);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span style="width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;display:inline-block;"></span>3D-printed frame in PLA or PETG</li>
-          <li style="font-size:13px;color:var(--ink-muted);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span style="width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;display:inline-block;"></span>Embedded speaker + rechargeable battery</li>
-          <li style="font-size:13px;color:var(--ink-muted);padding:5px 0;display:flex;align-items:center;gap:10px;"><span style="width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;display:inline-block;"></span>Wireless charging pad on bottom</li>
+        <p class="slide-desc" style="font-size:15px;color:var(--ink-soft);line-height:1.75;margin-bottom:1.25rem;">The Focus Block sits on your desk and shows your streak alongside your community's. No notifications. No demands. Just presence.</p>
+        <ul class="spec-list">
+          <li>5 screens: 4 sides and 1 top for settings</li>
+          <li>3D-printed frame in PLA or PETG</li>
+          <li>Embedded speaker and rechargeable battery</li>
+          <li>Wireless charging pad on the bottom</li>
         </ul>
       </div>
-      <img src="focusblock.png" class="cube-img" />
+      <figure style="margin:0;">
+        <img src="focusblock.png" class="cube-img" alt="3D render of the Focus Block on a desk showing a 12:00 streak display" />
+        <figcaption class="credit">Concept and interface by Andrew. 3D model by teammates.</figcaption>
+      </figure>
     </div>
-
   </div>
 </div>
 
-
-
-<!-- PROCESS -->
+<!-- OUTCOME -->
 <div class="section">
   <div class="container">
     <div class="reveal">
-      <p class="kicker">Design Process</p>
-      <h2>How we got here, including the wrong turns</h2>
-      <p>We didn't start with the cube. Early ideas included flashcards and analog note systems. None of them addressed the emotional problem we'd uncovered. The pivot came from two reference products: TRMNL and LoveBox. Once I saw LoveBox, a connected object tied to people you care about, something clicked about what the physical device needed to be.</p>
-    </div>
-    <div class="process-grid reveal">
-      <div class="process-cell"><div class="process-num">01</div><div class="process-title">Identify</div><div class="process-desc">Chose motivation loss and burnout as our social issue</div></div>
-      <div class="process-cell"><div class="process-num">02</div><div class="process-title">Research</div><div class="process-desc">Surveyed RPI students, analyzed habit apps, mapped pain points</div></div>
-      <div class="process-cell"><div class="process-num">03</div><div class="process-title">Define</div><div class="process-desc">Framed resilience as design theme, developed HMW questions</div></div>
-      <div class="process-cell"><div class="process-num">04</div><div class="process-title">Ideate</div><div class="process-desc">Pivoted from flashcards to hybrid physical-digital system</div></div>
-      <div class="process-cell"><div class="process-num">05</div><div class="process-title">Prototype</div><div class="process-desc">Built Figma app screens, 3D modeled Focus Block</div></div>
-      <div class="process-cell"><div class="process-num">06</div><div class="process-title">Present</div><div class="process-desc">Final deck + Google Sites project documentation</div></div>
+      <p class="kicker">Outcome</p>
+      <h2>The professor and classmates responded positively at the final critique.</h2>
+      <p>We presented Moti-Track as our final project for DIS 3. The Focus Block was never built as working hardware, so the concept still needs real-world proof. Next, I'd test two things with actual users: whether the reflection prompt reduces drop-off after a missed day, and whether a desk device can sync streaks in real time without feeling intrusive.</p>
     </div>
   </div>
 </div>
 
-
-
-
-
-<!-- SKETCHES -->
-<div class="section" style="padding-top:0;">
+<!-- PROCESS: RESEARCH -->
+<div class="section">
   <div class="container">
     <div class="reveal">
-      <p class="kicker">Early Sketches</p>
-      <p style="margin-bottom:2rem;">Before opening Figma, we sketched out the core screens on paper. These three concepts defined the direction: what happens when you miss a day, how the reflection model works, and what the Focus Block could be.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
+      <p class="kicker">Research</p>
+      <h2>Students don't quit because they stop caring. They quit because apps punish them.</h2>
+      <p>Over two weeks, we surveyed and interviewed 20+ RPI students who were actively building habits, or had tried and given up. There was no product to test yet, so this was about understanding the emotional landscape first.</p>
+    </div>
+    <div class="stats-row reveal">
+      <div class="stat-box"><div class="stat-num">40%</div><div class="stat-desc">still use physical journals as their primary habit tool</div></div>
+      <div class="stat-box" style="border-left:1px solid var(--border);border-right:1px solid var(--border);"><div class="stat-num">35%</div><div class="stat-desc">rely on digital apps like Notion or Streaks</div></div>
+      <div class="stat-box"><div class="stat-num">25%</div><div class="stat-desc">lean on social support as their primary motivator</div></div>
+    </div>
+    <div class="insight-list reveal">
+      <div class="insight-row"><div class="insight-index">01</div><div class="insight-body"><h3>Punishing UX kills momentum faster than missing a day does</h3><p>Students stopped using apps not because they missed a habit, but because of how the app responded. A wiped streak felt like being told to start from zero.</p></div></div>
+      <div class="insight-row"><div class="insight-index">02</div><div class="insight-body"><h3>Notifications are too easy to ignore</h3><p>One student put it directly: "I just swipe them away without thinking." A physical object works differently: ambient, persistent, with no demand for your attention.</p></div></div>
+      <div class="insight-row"><div class="insight-index">03</div><div class="insight-body"><h3>People want accountability, not competition</h3><p>Knowing a friend is also working on their habits, without being ranked against them, was consistently more motivating than any streak number or reward system.</p></div></div>
+      <div class="insight-row"><div class="insight-index">04</div><div class="insight-body"><h3>The 40% journal stat isn't random</h3><p>People who stuck with journals called them "gentler" and "more personal." That word kept coming up. It wasn't about features. It was about how the tool made them feel about themselves.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS: PERSONA -->
+<div class="section">
+  <div class="container">
+    <div class="reveal"><p class="kicker">Persona</p><h2>Mia wants progress that feels gentle, not judged.</h2></div>
+    <div class="persona-wrap reveal">
+      <div class="persona-top">
+        <img src="mia%20lin.jpg" alt="Portrait of Mia Lin, the persona" style="width:80px;height:80px;object-fit:cover;border-radius:50%;flex-shrink:0;" />
         <div>
-          <div style="height:420px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#f8f8f6;">
-            <img src="sketch_reset.jpg" alt="Early sketch showing reset on miss concept" style="width:100%;height:100%;object-fit:cover;object-position:center top;" />
-          </div>
-          <p style="font-size:13px;color:var(--ink-muted);margin-top:0.75rem;text-align:center;">v1: reset on miss</p>
+          <div class="persona-name">Mia Lin</div>
+          <div class="persona-meta">24 · Graduate Student · Bronx, NY</div>
+          <blockquote class="persona-quote">"I want to stay motivated without feeling judged. I do better when progress feels gentle and personal, not like I'm being punished for slipping up."</blockquote>
         </div>
-        <div>
-          <div style="height:420px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#f8f8f6;">
-            <img src="sketch_reflection.jpg" alt="Sketch of reflection model screen" style="width:100%;height:100%;object-fit:cover;object-position:center top;" />
-          </div>
-          <p style="font-size:13px;color:var(--ink-muted);margin-top:0.75rem;text-align:center;">pivot: reflection model</p>
-        </div>
-        <div>
-          <div style="height:420px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#f8f8f6;">
-            <img src="sketch_focusblock.jpg" alt="Sketch of Focus Block physical device concept" style="width:100%;height:100%;object-fit:cover;object-position:center top;" />
-          </div>
-          <p style="font-size:13px;color:var(--ink-muted);margin-top:0.75rem;text-align:center;">concept: focus block</p>
-        </div>
+      </div>
+      <div class="persona-bottom">
+        <div class="persona-col"><h3>Goals</h3><ul><li>Stay consistent with healthy habits</li><li>Maintain emotional balance over time</li><li>Build routines that feel sustainable</li></ul></div>
+        <div class="persona-col"><h3>Obstacles</h3><ul><li>Loses drive when stressed or overwhelmed</li><li>Feels guilt or shame after slip-ups</li><li>Current apps feel too strict or impersonal</li></ul></div>
+        <div class="persona-col" style="border-right:none;"><h3>How Moti-Track Helps</h3><ul><li>Reframes relapse as reflection, not failure</li><li>Physical and digital elements stay engaging</li><li>Calming, encouraging interactions</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS: SKETCHES -->
+<div class="section">
+  <div class="container">
+    <div class="reveal">
+      <p class="kicker">Process</p>
+      <h2>We didn't start with the cube.</h2>
+      <p>Early ideas like flashcards and analog note systems were too passive to touch the emotional problem we'd found. Before opening Figma, we sketched the core screens on paper. These three sketches set the direction: what happens when you miss a day, how reflection works, and what the Focus Block could be.</p>
+      <div class="sketch-grid">
+        <figure><div class="sketch"><img src="sketch_reset.jpg" alt="Early sketch of the reset-on-miss concept" /></div><figcaption>v1: reset on miss</figcaption></figure>
+        <figure><div class="sketch"><img src="sketch_reflection.jpg" alt="Sketch of the reflection model screen" /></div><figcaption>Pivot: reflection model</figcaption></figure>
+        <figure><div class="sketch"><img src="sketch_focusblock.jpg" alt="Sketch of the Focus Block device concept" /></div><figcaption>Concept: Focus Block</figcaption></figure>
       </div>
     </div>
   </div>
@@ -455,42 +403,29 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; al
 <!-- DECISIONS -->
 <div class="section">
   <div class="container">
-    <div class="reveal"><p class="kicker">Key Design Decisions</p><h2>The choices that shaped the product</h2></div>
+    <div class="reveal"><p class="kicker">Key Design Decisions</p><h2>Three choices that shaped the product</h2></div>
     <div class="decision-list reveal">
-      <div class="decision-row"><div class="decision-num">01</div><div class="decision-content"><h3>Reflection over reset</h3><p>This came directly from what students told us. The moment an app wipes your streak, the math changes. Starting over feels worse than quitting. So instead of resetting, Moti-Track prompts a journal entry. The streak doesn't disappear. It just has a note attached to that day.</p></div></div>
-      <div class="decision-row"><div class="decision-num">02</div><div class="decision-content"><h3>A physical device, not just another app</h3><p>The hardest part of this project was figuring out what the cube actually was. LoveBox helped me see it: a connected physical object that shows something meaningful without requiring you to open anything. The Focus Block sits on your desk and shows your streak and your friends' streaks, always visible, never demanding.</p></div></div>
-      <div class="decision-row"><div class="decision-num">03</div><div class="decision-content"><h3>Community without competition</h3><p>We talked about leaderboards. We decided against them because the research was clear: people want to feel like others are in it with them, not like they're losing a race. Seeing a friend's 12-day streak on the cube is motivating. Being ranked 8th out of 10 is demoralizing.</p></div></div>
-      <div class="decision-row"><div class="decision-num">04</div><div class="decision-content"><h3>Designing without a working prototype</h3><p>We never built a real Focus Block. The technology and time weren't there. That constraint forced us to be precise about what the experience should feel like conceptually, and to make sure the app was strong enough to stand on its own.</p></div></div>
+      <div class="decision-row"><div class="decision-num">01</div><div class="decision-content"><h3>A missed day opens a prompt, not a reset</h3><p>When you miss a habit, Moti-Track asks a short question like "What challenged you?" instead of wiping your streak. Your answer is saved as a note on that day, so the streak stays intact and the slip becomes part of the story.</p></div></div>
+      <div class="decision-row"><div class="decision-num">02</div><div class="decision-content"><h3>A physical device, not just another app</h3><p>The hardest part was defining what the cube should be. It became a connected object that shows your streak and your friends' streaks without asking you to open anything. Always visible, never demanding.</p></div></div>
+      <div class="decision-row"><div class="decision-num">03</div><div class="decision-content"><h3>Community without competition</h3><p>We talked about leaderboards and decided against them. People want to feel like others are in it with them, not like they're losing a race. Seeing a friend's 12-day streak is motivating. Being ranked 8th out of 10 is demoralizing.</p></div></div>
     </div>
   </div>
 </div>
-
-
 
 <!-- REFLECTION -->
 <div class="section">
   <div class="container">
-    <div class="reveal"><p class="kicker">Reflection</p><h2>What this project taught me</h2></div>
-    <div class="reflection-grid reveal">
-      <div class="reflection-cell">
-        <p class="kicker">Learnings</p>
-        <p style="margin-top:1rem;">The hardest part wasn't the Figma screens. It was figuring out what the cube actually should be. Once I found LoveBox and TRMNL, something clicked: the physical object needed to work like ambient presence, not an alert system. That reframe unlocked everything else.</p>
-        <p>I also learned how much early feedback matters. The further into the design you get before showing it to someone, the harder it is to change direction. Next time I'd seek outside perspectives much earlier in the process, even if the work feels unfinished. Fresh eyes catch things you stop seeing when you've been staring at the same screens for weeks.</p>
-      </div>
-      <div class="reflection-cell dark">
-        <p class="kicker">What's Next</p>
-        <p style="margin-top:1rem;">A real working Focus Block is the obvious next step. The 3D model exists, now it needs actual hardware. Beyond that: testing the reflection prompt flow with real users to see if it actually reduces drop-off, and exploring how the cube syncs streaks in real time without feeling intrusive.</p>
-        <p>The concept is solid. It just needs to be built.</p>
-      </div>
+    <div class="reveal"><p class="kicker">Reflection</p><h2>What I learned</h2></div>
+    <div class="decision-list reveal">
+      <div class="decision-row"><div class="decision-num">01</div><div class="decision-content"><h3>Define the object before the screens.</h3><p>The hardest part wasn't the Figma screens. It was figuring out what the cube should be. Once I saw it as ambient presence instead of an alert system, everything else followed.</p></div></div>
+      <div class="decision-row"><div class="decision-num">02</div><div class="decision-content"><h3>Show the work earlier than feels comfortable.</h3><p>The further into a design you get before showing it to someone, the harder it is to change direction. Next time I'd bring in outside eyes much earlier, even while the work still feels unfinished.</p></div></div>
     </div>
   </div>
 </div>
 
-
-
 <div class="cta">
   <div class="container">
-    <h2>Open to UX and product design internships for Summer 2026.</h2>
+    <h2>Open to UX design internships and full-time roles in 2027.</h2>
   </div>
 </div>
 
